@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autismo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #6a0dad, #9400d3);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            background-color: #4b0082;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar div {
+            height: 20px;
+            background-color: #dda0dd;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question {
+            margin: 20px 0;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .options button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8a2be2;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .options button:hover {
+            background-color: #ba55d3;
+        }
+
+        #finish-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #9932cc;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #finish-btn:hover {
+            background-color: #bf3eff;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #ddd;
+        }
+
+        .intro {
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: #ccc;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Test de Autismo</h1>
+        <div class="intro">
+            <p>Este test no es un diagnóstico médico, pero puede darte una idea sobre posibles signos relacionados con el espectro autista.</p>
+            <p><strong>Creado por Rataslow.</strong></p>
+        </div>
+        <h2>Identificación de Señales</h2>
+        <div class="progress-bar">
+            <div id="progress"></div>
+        </div>
+
+        <div id="quiz">
+            <!-- Preguntas originales -->
+            <div class="question" data-question="1">
+                <p>¿Con qué frecuencia te sientes incómodo en reuniones sociales grandes?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="2" style="display: none;">
+                <p>¿Prefieres realizar actividades solo en lugar de en grupo?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="3" style="display: none;">
+                <p>¿Te molestan ciertos ruidos fuertes o repetitivos?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, mucho</button>
+                    <button onclick="nextQuestion(2)">Un poco</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">No me molestan</button>
+                </div>
+            </div>
+            <div class="question" data-question="4" style="display: none;">
+                <p>¿Te resulta difícil interpretar las expresiones faciales de otras personas?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A veces</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="5" style="display: none;">
+                <p>¿Tiendes a enfocarte intensamente en un tema o actividad específica?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+
+            <!-- Preguntas adicionales -->
+            <div class="question" data-question="6" style="display: none;">
+                <p>¿Tienes dificultades para adaptarte a cambios inesperados en tu rutina?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="7" style="display: none;">
+                <p>¿A menudo te sientes más cómodo en espacios tranquilos o solitarios?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="8" style="display: none;">
+                <p>¿Prefieres seguir una rutina estricta en lugar de ser flexible?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="9" style="display: none;">
+                <p>¿Te resulta difícil comprender las emociones o los estados de ánimo de los demás?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+            <div class="question" data-question="10" style="display: none;">
+                <p>¿Sueles hablar sobre tus intereses o pasatiempos sin notar si a los demás les interesa?</p>
+                <div class="options">
+                    <button onclick="nextQuestion(3)">Sí, siempre</button>
+                    <button onclick="nextQuestion(2)">A menudo</button>
+                    <button onclick="nextQuestion(1)">Rara vez</button>
+                    <button onclick="nextQuestion(0)">Nunca</button>
+                </div>
+            </div>
+
+            <!-- Preguntas de verdadero o falso sobre empatía -->
+            <div class="question" data-question="11" style="display: none;">
+                <p>¿Sientes una conexión con las emociones de las personas que te rodean?</p>
+                <div class="options">
+                    <button onclick="nextQuestionEmpatia(true)">Verdadero</button>
+                    <button onclick="nextQuestionEmpatia(false)">Falso</button>
+                </div>
+            </div>
+            <div class="question" data-question="12" style="display: none;">
+                <p>¿Te preocupa ver a otras personas sufrir?</p>
+                <div class="options">
+                    <button onclick="nextQuestionEmpatia(true)">Verdadero</button>
+                    <button onclick="nextQuestionEmpatia(false)">Falso</button>
+                </div>
+            </div>
+            <div class="question" data-question="13" style="display: none;">
+                <p>¿Sueles ser sensible a las emociones ajenas?</p>
+                <div class="options">
+                    <button onclick="nextQuestionEmpatia(true)">Verdadero</button>
+                    <button onclick="nextQuestionEmpatia(false)">Falso</button>
+                </div>
+            </div>
+            <div class="question" data-question="14" style="display: none;">
+                <p>¿Te resulta fácil ponerte en el lugar de otras personas?</p>
+                <div class="options">
+                    <button onclick="nextQuestionEmpatia(true)">Verdadero</button>
+                    <button onclick="nextQuestionEmpatia(false)">Falso</button>
+                </div>
+            </div>
+            <div class="question" data-question="15" style="display: none;">
+                <p>¿Te gustaría ayudar a las personas que están pasando por un momento difícil?</p>
+                <div class="options">
+                    <button onclick="nextQuestionEmpatia(true)">Verdadero</button>
+                    <button onclick="nextQuestionEmpatia(false)">Falso</button>
+                </div>
+            </div>
+<!-- Preguntas nuevas -->
+<div class="question" data-question="16" style="display: none;">
+    <p><strong>Trama:</strong> Imagina que estás en una conversación con un amigo o colega. El entorno es tranquilo y no hay distracciones importantes. Sin embargo, mientras hablas, notas que evitas mirar a los ojos de la otra persona. Esto podría ser un signo de incomodidad o dificultad en la interacción social.</p>
+    <p><strong>Pregunta:</strong> ¿Te resulta difícil mantener contacto visual con los demás cuando hablas con ellos?</p>
+    <div class="options">
+        <button onclick="nextQuestion(3)">Me resulta incómodo hacer contacto visual, prefiero no hacerlo.</button>
+        <button onclick="nextQuestion(2)">Me distraigo fácilmente y pierdo el contacto visual.</button>
+        <button onclick="nextQuestion(0)">No tengo problema, lo hago de manera natural.</button>
+    </div>
+</div>
+<div class="question" data-question="17" style="display: none;">
+    <p><strong>Trama:</strong> Has sido invitado a un evento social o actividad grupal. Mientras los demás disfrutan de la compañía, prefieres estar solo, observando desde un rincón o participando en actividades individuales.</p>
+    <p><strong>Pregunta:</strong> ¿Prefieres realizar actividades solo en lugar de en grupo?</p>
+    <div class="options">
+        <button onclick="nextQuestion(3)">Prefiero estar solo, las actividades grupales me abruman.</button>
+        <button onclick="nextQuestion(2)">No me importa estar con otros, pero a veces me desconecto.</button>
+        <button onclick="nextQuestion(0)">Me gusta estar con otros y disfruto de las actividades grupales.</button>
+    </div>
+</div>
+<div class="question" data-question="18" style="display: none;">
+    <p><strong>Trama:</strong> Estás en un lugar ruidoso, como una cafetería o una fiesta con música fuerte. Los ruidos fuertes o repetitivos te incomodan, afectando tu capacidad de disfrutar del ambiente.</p>
+    <p><strong>Pregunta:</strong> ¿Te molesta o te incomoda escuchar ruidos fuertes o repetitivos?</p>
+    <div class="options">
+        <button onclick="nextQuestion(3)">Sí, los ruidos me sobrecargan sensorialmente.</button>
+        <button onclick="nextQuestion(2)">Me distraigo con los ruidos, pero no tanto como otros.</button>
+        <button onclick="nextQuestion(0)">Los ruidos me afectan un poco, pero no son un problema.</button>
+    </div>
+</div>
+<div class="question" data-question="19" style="display: none;">
+    <p><strong>Trama:</strong> En una conversación, alguien se ve visiblemente frustrado o triste. Los demás intentan consolar a la persona, pero te cuesta interpretar sus emociones a través de su expresión facial o lenguaje corporal.</p>
+    <p><strong>Pregunta:</strong> ¿Te resulta difícil interpretar las emociones de los demás solo por su expresión facial o lenguaje corporal?</p>
+    <div class="options">
+        <button onclick="nextQuestion(3)">Sí, me cuesta entender las emociones sin que me las digan.</button>
+        <button onclick="nextQuestion(2)">A veces no presto atención y no capto esas señales.</button>
+        <button onclick="nextQuestion(0)">No, suelo notar cómo se sienten solo con observar.</button>
+    </div>
+</div>
+<div class="question" data-question="20" style="display: none;">
+    <p><strong>Trama:</strong> Observas a un amigo pasando por una situación difícil. Sientes que tu respuesta emocional es limitada y que no te afecta tan profundamente como a otros.</p>
+    <p><strong>Pregunta:</strong> ¿Te afecta profundamente ver a otras personas en situaciones emocionales difíciles?</p>
+    <div class="options">
+        <button onclick="nextQuestion(3)">No suelo sentirme tan afectado por las emociones de los demás.</button>
+        <button onclick="nextQuestion(2)">Puedo sentirme distante, pero eso no significa que no me importe.</button>
+        <button onclick="nextQuestion(0)">Sí, me siento afectado de inmediato.</button>
+    </div>
+</div>
+            <!-- Botón para finalizar solo en la última pregunta -->
+            <div id="finish" style="display: none;">
+                <button id="finish-btn" onclick="finishQuiz()">Finalizar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0; // Puntuación total
+        let empathyScore = 0; // Puntuación de empatía
+        let currentQuestion = 1;
+        const totalQuestions = 20;
+        const progressBar = document.getElementById("progress");
+
+        // Función para mostrar la siguiente pregunta
+        function nextQuestion(answer) {
+            score += answer;
+            currentQuestion++;
+            document.querySelector(`.question[data-question="${currentQuestion-1}"]`).style.display = 'none';
+            if (currentQuestion <= totalQuestions) {
+                document.querySelector(`.question[data-question="${currentQuestion}"]`).style.display = 'block';
+                updateProgress();
+            } else {
+                document.getElementById('finish').style.display = 'block'; // Mostrar botón de finalizar
+            }
+        }
+
+        // Función para mostrar la siguiente pregunta de empatía
+        function nextQuestionEmpatia(answer) {
+            empathyScore += answer ? 1 : 0;
+            nextQuestion(0);  // Solo actualizamos el progreso sin sumar puntos aquí
+        }
+
+        // Actualizar la barra de progreso
+        function updateProgress() {
+            let progress = (currentQuestion - 1) / totalQuestions * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Finalizar el test y generar el PDF
+function finishQuiz() {
+    let advice = '';
+    if (score >= 30) {
+        advice = 'Tu puntuación sugiere que podrías tener características asociadas al espectro autista. Es recomendable consultar a un profesional.';
+    } else {
+        advice = 'Tu puntuación indica que es poco probable que presentes señales claras de autismo, pero cada persona es diferente.';
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Configurar márgenes
+    const margin = 20;
+    const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
+
+    // Título
+    doc.setFontSize(16);
+    doc.text('Resultado del Test de Autismo', margin, margin + 10);
+
+    // Texto de puntaje y consejo
+    doc.setFontSize(12);
+    let yPosition = margin + 20; // Aumentar la posición Y después del título
+
+    // Dividir el texto en partes para que quepa dentro de los márgenes
+    const maxWidth = pageWidth - 2 * margin; // Ancho máximo disponible
+    let scoreText = doc.splitTextToSize(`Puntaje total: ${score}`, maxWidth);
+    doc.text(scoreText, margin, yPosition);
+    yPosition += doc.getTextDimensions(scoreText).h + 5; // Ajustar la posición Y después de la primera línea
+
+    let empathyScoreText = doc.splitTextToSize(`Puntaje de Empatía: ${empathyScore}`, maxWidth);
+    doc.text(empathyScoreText, margin, yPosition);
+    yPosition += doc.getTextDimensions(empathyScoreText).h + 5; // Ajustar la posición Y después de la segunda línea
+
+    let adviceText = doc.splitTextToSize(`Consejo: ${advice}`, maxWidth);
+    doc.text(adviceText, margin, yPosition);
+
+    // Asegurarse de que el contenido no se desborde
+    if (yPosition > pageHeight - margin) {
+        doc.addPage(); // Si se excede el margen inferior, agregar nueva página
+        yPosition = margin;
+    }
+
+    // Guardar el documento PDF
+    doc.save('resultado_test_autismo.pdf');
+}
+
+    </script>
+</body>
+</html>
